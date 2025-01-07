@@ -34,14 +34,22 @@ func (a *PollingController) GetGoogleSheetByID(ctx *gin.Context) {
 		})
 		return
 	}
-	if string(*data) == "" {
-		ctx.JSON(http.StatusInternalServerError, models.ResponseGetGoogleSheetByID{
-			Error:  "not generated",
-			Status: http.StatusInternalServerError,
+	if data == nil { // case empty data
+		ctx.JSON(http.StatusOK, models.ResponseGetGoogleSheetByID{
+			Error:  "",
+			Status: http.StatusOK,
+			Data:   "",
 		})
 		return
 	}
-
+	if *data == "" { // case empty data
+		ctx.JSON(http.StatusOK, models.ResponseGetGoogleSheetByID{
+			Error:  "",
+			Status: http.StatusOK,
+			Data:   "",
+		})
+		return
+	}
 	ctx.JSON(http.StatusCreated, models.ResponseGetGoogleSheetByID{
 		Status: http.StatusOK,
 		Error:  "",

@@ -28,6 +28,7 @@ func NewPollingClientHTTP(client HTTPClient, clickhouseConfig config.ClickhouseC
 func (a *PollingHTTPRepository) GetActionByID(actionID *string, userID *string, limitCount uint64) (data *models.ResponsePollingActionID, err error) {
 	u, err := url.Parse(a.databaseHTTPURL + "/action_workflow_data.json")
 	if err != nil {
+		log.Printf("ERROR | polling httpclient cannot parse url %v", err)
 		return nil, err
 	}
 
@@ -37,14 +38,15 @@ func (a *PollingHTTPRepository) GetActionByID(actionID *string, userID *string, 
 	q.Set("user_id", *userID)
 	q.Set("limit_count", fmt.Sprintf("%d", limitCount))
 	u.RawQuery = q.Encode()
-
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
+		log.Printf("ERROR | polling httpclient cannot generate request %v", err)
 		return nil, err
 	}
 
 	resp, err := a.client.Do(req)
 	if err != nil {
+		log.Printf("ERROR | polling httpclient not response %v", err)
 		return nil, err
 	}
 	defer resp.Body.Close()

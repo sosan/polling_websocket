@@ -2,7 +2,6 @@ package services
 
 import (
 	"fmt"
-	"log"
 	"polling_websocket/pkg/domain/repos"
 )
 
@@ -30,6 +29,5 @@ func (a *PollingServiceImpl) GetContentGoogleSheetByID(actionID *string, userID 
 	}
 
 	data, err = a.getAllContentFromGoogleSheets(actionID, userID)
-	log.Printf("%s", fmt.Sprintf("%v", *data))
 	return data, err
 }

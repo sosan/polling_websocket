@@ -33,3 +33,7 @@ var ValidCommandTypes = map[string]bool{
 var ValidGooglePollingTypes = map[string]bool{
 	"googlesheets": true,
 }
+
+var PermitedPathList = map[string]bool{
+	"/api/v1/polling/ping": true,
+}

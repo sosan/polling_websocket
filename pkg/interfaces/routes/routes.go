@@ -14,11 +14,9 @@ func Register(app *gin.Engine, dependencies *dimodel.Dependencies) {
 	// Routes in groups
 	api := app.Group("/api/v1")
 	{
-		// api.GET("/ping", common.Ping)
-
 		actions := api.Group("/polling")
 		{
-			actions.GET("/google", dependencies.PollingController.Ping)
+			actions.GET("/ping", dependencies.PollingController.Ping)
 			actions.GET("/google/sheets/:iduser/:idaction", middlewares.ValidateGetGoogleSheet(), dependencies.PollingController.GetGoogleSheetByID)
 		}
 	}

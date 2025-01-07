@@ -31,13 +31,11 @@ func ValidateGetGoogleSheet() gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, NewInvalidRequestError(models.InvalidJSON, http.StatusBadRequest))
 			ctx.Abort()
 			return
-
 		}
 		if strings.TrimSpace(userID) == "" {
 			ctx.JSON(http.StatusBadRequest, NewInvalidRequestError(models.InvalidJSON, http.StatusBadRequest))
 			ctx.Abort()
 			return
-
 		}
 		ctx.Next()
 	}
