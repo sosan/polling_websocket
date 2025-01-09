@@ -10,7 +10,7 @@ type PollingService interface {
 }
 
 type PollingHTTPRepository interface {
-	GetActionByID(actionID *string, userID *string, limitCount uint64) (data *models.ResponsePollingActionID, err error)
+	GetActionByID(actionID *string, userID *string, commandType string, limitCount uint64) (data *models.ResponsePollingActionID, err error)
 }
 
 type PollingRedisRepoInterface interface {

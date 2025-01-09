@@ -13,6 +13,11 @@ type PollingServiceImpl struct {
 	credentialHTTP        repos.CredentialHTTPRepository
 }
 
+const (
+	UpdateCommand = "update"
+	CreateCommnad = "create"
+)
+
 func NewPollingService(repoRedis repos.PollingRedisRepoInterface, actionBroker repos.PollingBrokerRepository, repoHTTP repos.PollingHTTPRepository, credentialRepo repos.CredentialHTTPRepository, credentialBroker repos.CredentialBrokerRepository) repos.PollingService {
 	return &PollingServiceImpl{
 		redisRepo:             repoRedis,
@@ -28,6 +33,6 @@ func (a *PollingServiceImpl) GetContentGoogleSheetByID(actionID *string, userID 
 		return nil, fmt.Errorf("cannot by empty")
 	}
 
-	data, err = a.getAllContentFromGoogleSheets(actionID, userID)
+	data, err = a.getAllContentFromGoogleSheets(actionID, userID, UpdateCommand)
 	return data, err
 }

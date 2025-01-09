@@ -25,7 +25,7 @@ func NewPollingClientHTTP(client HTTPClient, clickhouseConfig config.ClickhouseC
 	}
 }
 
-func (a *PollingHTTPRepository) GetActionByID(actionID *string, userID *string, limitCount uint64) (data *models.ResponsePollingActionID, err error) {
+func (a *PollingHTTPRepository) GetActionByID(actionID *string, userID *string, commandType string, limitCount uint64) (data *models.ResponsePollingActionID, err error) {
 	u, err := url.Parse(a.databaseHTTPURL + "/action_workflow_data.json")
 	if err != nil {
 		log.Printf("ERROR | polling httpclient cannot parse url %v", err)
@@ -36,6 +36,7 @@ func (a *PollingHTTPRepository) GetActionByID(actionID *string, userID *string, 
 	q.Set("token", a.token)
 	q.Set("action_id", *actionID)
 	q.Set("user_id", *userID)
+	q.Set("command_type", commandType)
 	q.Set("limit_count", fmt.Sprintf("%d", limitCount))
 	u.RawQuery = q.Encode()
 	req, err := http.NewRequest("GET", u.String(), nil)
