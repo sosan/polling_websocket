@@ -21,11 +21,11 @@ func ValidateUserAuth() gin.HandlerFunc {
 	}
 }
 
-func ValidateGetGoogleSheet() gin.HandlerFunc {
+// dummy validation
+func ValidateRequestAction() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		actionID := ctx.Param("idaction")
 		userID := ctx.Param("iduser")
-
 		// TODO: better validation for actionID and userID
 		if strings.TrimSpace(actionID) == "" {
 			ctx.JSON(http.StatusBadRequest, NewInvalidRequestError(models.InvalidJSON, http.StatusBadRequest))

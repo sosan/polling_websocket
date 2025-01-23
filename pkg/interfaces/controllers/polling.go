@@ -23,10 +23,10 @@ func (a *PollingController) Ping(ctx *gin.Context) {
 	ctx.JSON(200, ob)
 }
 
-func (a *PollingController) GetGoogleSheetByID(ctx *gin.Context) {
+func (a *PollingController) GetActionByID(ctx *gin.Context) {
 	actionID := ctx.Param("idaction")
 	userID := ctx.Param("iduser")
-	data, err := a.pollingService.GetContentGoogleSheetByID(&actionID, &userID)
+	data, err := a.pollingService.GetContentActionByID(&actionID, &userID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, models.ResponseGetGoogleSheetByID{
 			Error:  "not generated",

@@ -17,7 +17,9 @@ func Register(app *gin.Engine, dependencies *dimodel.Dependencies) {
 		actions := api.Group("/polling")
 		{
 			actions.GET("/ping", dependencies.PollingController.Ping)
-			actions.GET("/google/sheets/:iduser/:idaction", middlewares.ValidateGetGoogleSheet(), dependencies.PollingController.GetGoogleSheetByID)
+			// both uris uses same logic, btw i dont know if notion action will change base logic
+			actions.GET("/google/sheets/:iduser/:idaction", middlewares.ValidateRequestAction(), dependencies.PollingController.GetActionByID)
+			actions.GET("/notion/:iduser/:idaction", middlewares.ValidateRequestAction(), dependencies.PollingController.GetActionByID)
 		}
 	}
 }

@@ -25,7 +25,7 @@ type ZitadelClient struct {
 func NewZitadelClient(apiURL, userID, privateKey, keyID, projectID, clientID string) *ZitadelClient {
 	return &ZitadelClient{
 		apiURL:     apiURL,
-		ClientHTTP: NewClientImpl(models.TimeoutRequest), //&ClientImpl{}, // &http.Client{Timeout: 10 * time.Second},
+		ClientHTTP: NewClientImpl(models.TimeoutRequest),
 		userID:     userID,
 		privateKey: []byte(privateKey),
 		keyID:      keyID,

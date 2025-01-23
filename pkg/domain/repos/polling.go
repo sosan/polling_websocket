@@ -6,7 +6,8 @@ import (
 )
 
 type PollingService interface {
-	GetContentGoogleSheetByID(actionID *string, userID *string) (data *string, err error)
+	GetContentActionByID(actionID *string, userID *string) (data *string, err error)
+	// GetNotionActionByID(actionID *string, userID *string) (data *string, err error)
 }
 
 type PollingHTTPRepository interface {

@@ -28,11 +28,11 @@ func NewPollingService(repoRedis repos.PollingRedisRepoInterface, actionBroker r
 	}
 }
 
-func (a *PollingServiceImpl) GetContentGoogleSheetByID(actionID *string, userID *string) (data *string, err error) {
+func (a *PollingServiceImpl) GetContentActionByID(actionID *string, userID *string) (data *string, err error) {
 	if actionID == nil || userID == nil {
 		return nil, fmt.Errorf("cannot by empty")
 	}
 
-	data, err = a.getAllContentFromGoogleSheets(actionID, userID, UpdateCommand)
+	data, err = a.getAllContentFromAction(actionID, userID, UpdateCommand)
 	return data, err
 }
