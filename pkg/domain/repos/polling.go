@@ -7,7 +7,6 @@ import (
 
 type PollingService interface {
 	GetContentActionByID(actionID *string, userID *string) (data *string, err error)
-	// GetNotionActionByID(actionID *string, userID *string) (data *string, err error)
 }
 
 type PollingHTTPRepository interface {

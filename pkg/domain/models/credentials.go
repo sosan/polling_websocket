@@ -19,6 +19,7 @@ const (
 	CredDateInvalid           = "Invalid date"
 	CredRateLimitUpdate       = 10 * time.Second
 	UserTokenExpired          = "token expired"
+	CredentialTopicName       = "credentials.command"
 )
 
 type RequestExchangeCredential struct {

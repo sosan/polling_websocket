@@ -61,13 +61,3 @@ func (a *PollingKafkaRepository) PublishCommand(payload PollingCommand, key stri
 
 	return false
 }
-
-// func (a *PollingKafkaRepository) UpdateCredential(exchangeCredential *models.RequestExchangeCredential) (sended bool) {
-// 	command := PollingCommand{
-// 		Polling: exchangeCredential,
-// 		Type:      CommandTypeUpdate,
-// 		// Timestamp: time.Now(),
-// 	}
-// 	sended = a.PublishCommand(command, newAction.ActionID)
-// 	return sended
-// }

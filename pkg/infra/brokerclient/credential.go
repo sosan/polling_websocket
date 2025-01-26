@@ -26,65 +26,17 @@ func NewCredentialKafkaRepository(client KafkaClient) *CredentialKafkaRepository
 }
 
 func (c *CredentialKafkaRepository) UpdateCredential(payload *models.RequestExchangeCredential) (sended bool) {
-	// payload := c.credentialToPayload(stateInfo, token, refresh, expire)
-	// if payload == nil {
-	// 	return false
-	// }
+	if payload == nil {
+		log.Printf("ERROR | Payload is nil")
+		return false
+	}
 	command := CredentialCommand{
 		Credential: payload,
+		Type: models.UpdateCommand,
 	}
-	// key := fmt.Sprintf("credential_%s_%s_%s_%s", stateInfo.Sub, stateInfo.WorkflowID, stateInfo.NodeID, stateInfo.Type)
 	sended = c.PublishCommand(command, payload.ID)
 	return sended
 }
-
-// func (c *CredentialKafkaRepository) CreateCredential(token, refresh *string, expire *time.Time, stateInfo *models.RequestExchangeCredential) (sended bool) {
-// 	payload := c.credentialToPayload(stateInfo, token, refresh, expire)
-// 	if payload == nil {
-// 		return false
-// 	}
-// 	command := CredentialCommand{
-// 		Credential: payload,
-// 	}
-// 	key := fmt.Sprintf("credential_%s_%s_%s_%s", stateInfo.Sub, stateInfo.WorkflowID, stateInfo.NodeID, stateInfo.Type)
-// 	sended = c.PublishCommand(command, key)
-// 	return sended
-// }
-
-// // use sync.pool in serverless not necessary
-// // TODO: marked as optimiced if it's necessary
-// func (c *CredentialKafkaRepository) credentialToPayload(stateInfo *models.RequestExchangeCredential, token, refresh *string, expire *time.Time) *models.CredentialPayload {
-// 	now := models.CustomTime{
-// 		Time: time.Now().UTC(),
-// 	}
-// 	customExpire := models.CustomTime{
-// 		Time: *expire,
-// 	}
-
-// 	// idCurrent := fmt.Sprintf("credential_%s_%s_%s_%s", stateInfo.Sub, stateInfo.WorkflowID, stateInfo.NodeID, stateInfo.Type)
-// 	stateInfo.Data.Token = *token
-// 	stateInfo.Data.TokenRefresh = *refresh
-// 	stateInfo.ExpiresAt = &customExpire
-// 	stateInfo.CreatedAt = &now
-// 	stateInfo.UpdatedAt = &now
-// 	stateInfo.LastUsedAt = &now
-// 	stateInfo.RevokedAt = nil
-// 	stateInfo.Version = 1
-// 	stateInfo.IsActive = true
-
-// 	dataCredential, err := json.Marshal(stateInfo.Data)
-// 	if err != nil {
-// 		log.Printf("ERROR | Cannot convert to json %v", stateInfo.Data)
-// 		return nil
-// 	}
-// 	// stateInfo.ID = idCurrent
-
-// 	payload := &models.CredentialPayload{
-// 		RequestExchangeCredential: *stateInfo,
-// 		Data:                      string(dataCredential),
-// 	}
-// 	return payload
-// }
 
 func (c *CredentialKafkaRepository) PublishCommand(credentialCommand CredentialCommand, key string) bool {
 	command, err := json.Marshal(credentialCommand)
@@ -94,7 +46,7 @@ func (c *CredentialKafkaRepository) PublishCommand(credentialCommand CredentialC
 	}
 
 	for i := 1; i < models.MaxAttempts; i++ {
-		err = c.client.Produce("credentials.command", []byte(key), command)
+		err = c.client.Produce(models.CredentialTopicName, []byte(key), command)
 		if err == nil {
 			return true
 		}

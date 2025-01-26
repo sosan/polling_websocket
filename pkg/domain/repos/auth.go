@@ -27,7 +27,6 @@ type JWTGenerator interface {
 
 type ZitadelClient interface {
 	GenerateActionUserAccessToken(jwt string) (*string, time.Duration, error)
-	// GenerateActionUserAccessToken(jwt string) (*string, time.Duration, error)
 	ValidateUserToken(userToken, introspectJWT string) (bool, int64, error)
 	ValidateActionUserAccessToken(userToken, introspectJWT *string) (bool, error)
 }

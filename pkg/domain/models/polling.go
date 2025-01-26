@@ -1,5 +1,10 @@
 package models
 
+const (
+	UpdateCommand = "update"
+	CreateCommnad = "create"
+)
+
 type ResponsePollingActionID struct {
 	Data                   []RequestGoogleAction `json:"data,omitempty"`
 	Rows                   *int64                `json:"rows,omitempty"`

@@ -1,16 +1,15 @@
+.PHONY: openapi_http lint fmt test efficient_structs mockall coverage
+
 include .env
 export
 
-.PHONY: openapi_http
 openapi_http:
 	@echo "Generating OpenAPI documentation..."
 	@./scripts/openapi-http.sh api main
 
-.PHONY: lint
 lint:
 	@./scripts/lint.sh
 
-.PHONY: fmt
 fmt:
 	goimports -l -w -d -v ./
 
@@ -21,3 +20,11 @@ test:
 efficient_structs:
 	@echo "Fixing structs..."
 	@./scripts/structs_efficient.sh
+
+mockall:
+	@echo "Generating mocks..."
+	@./scripts/mockall.sh
+
+coverage:
+	@echo "Generating coverage..."
+	@./scripts/coverage.sh

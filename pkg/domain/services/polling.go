@@ -2,29 +2,31 @@ package services
 
 import (
 	"fmt"
+	"polling_websocket/pkg/domain/models"
 	"polling_websocket/pkg/domain/repos"
 )
 
 type PollingServiceImpl struct {
-	redisRepo             repos.PollingRedisRepoInterface
-	brokerPollingRepo     repos.PollingBrokerRepository
-	brokerCredentialsRepo repos.CredentialBrokerRepository
-	httpRepo              repos.PollingHTTPRepository
-	credentialHTTP        repos.CredentialHTTPRepository
+	redisRepo          repos.PollingRedisRepoInterface
+	brokerPollingRepo  repos.PollingBrokerRepository
+	brokerCredsRepo    repos.CredentialBrokerRepository
+	httpRepo           repos.PollingHTTPRepository
+	credentialHTTPRepo repos.CredentialHTTPRepository
 }
 
-const (
-	UpdateCommand = "update"
-	CreateCommnad = "create"
-)
-
-func NewPollingService(repoRedis repos.PollingRedisRepoInterface, actionBroker repos.PollingBrokerRepository, repoHTTP repos.PollingHTTPRepository, credentialRepo repos.CredentialHTTPRepository, credentialBroker repos.CredentialBrokerRepository) repos.PollingService {
+func NewPollingService(
+	repoRedis repos.PollingRedisRepoInterface,
+	actionBroker repos.PollingBrokerRepository,
+	repoHTTP repos.PollingHTTPRepository,
+	credentialRepo repos.CredentialHTTPRepository,
+	credentialBroker repos.CredentialBrokerRepository,
+) repos.PollingService {
 	return &PollingServiceImpl{
-		redisRepo:             repoRedis,
-		brokerPollingRepo:     actionBroker,
-		brokerCredentialsRepo: credentialBroker,
-		httpRepo:              repoHTTP,
-		credentialHTTP:        credentialRepo,
+		redisRepo:          repoRedis,
+		brokerPollingRepo:  actionBroker,
+		brokerCredsRepo:    credentialBroker,
+		httpRepo:           repoHTTP,
+		credentialHTTPRepo: credentialRepo,
 	}
 }
 
@@ -33,6 +35,6 @@ func (a *PollingServiceImpl) GetContentActionByID(actionID *string, userID *stri
 		return nil, fmt.Errorf("cannot by empty")
 	}
 
-	data, err = a.getAllContentFromAction(actionID, userID, UpdateCommand)
+	data, err = a.getAllContentFromAction(actionID, userID, models.UpdateCommand)
 	return data, err
 }
